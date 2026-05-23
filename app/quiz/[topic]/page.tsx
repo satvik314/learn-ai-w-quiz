@@ -6,8 +6,13 @@ export function generateStaticParams() {
   return topics.map((t) => ({ topic: t.id }));
 }
 
-export default function QuizPage({ params }: { params: { topic: string } }) {
-  const topic = getTopic(params.topic);
+export default async function QuizPage({
+  params,
+}: {
+  params: Promise<{ topic: string }>;
+}) {
+  const { topic: topicId } = await params;
+  const topic = getTopic(topicId);
   if (!topic) notFound();
   return <QuizClient topic={topic} />;
 }
